@@ -22,10 +22,9 @@
 {
     self = [super init];
     if (self) {
-        self.audioPlayer = [[STKAudioPlayer alloc] initWithOptions:(STKAudioPlayerOptions){}];
-        [self.audioPlayer setDelegate:self];
-        [self setSharedAudioSessionCategory];
-        [self registerAudioInterruptionNotifications];
+      self.audioPlayer = [[STKAudioPlayer alloc] initWithOptions:(STKAudioPlayerOptions){}];
+      [self.audioPlayer setDelegate:self];
+      [self registerAudioInterruptionNotifications];
     }
     
     return self;
@@ -59,8 +58,16 @@ RCT_EXPORT_METHOD(play:(NSString *)url)
     if (!self.audioPlayer) {
         return;
     }
+    NSError *categoryError = nil;
     
-    [self.audioPlayer play:url];
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&categoryError];
+    [[AVAudioSession sharedInstance] setActive:YES error:&categoryError];
+    
+    if (!categoryError) {
+        [self.audioPlayer play:url];
+    }else{
+        NSLog(@"RNStreamingKitManager Error setting category! %@", [categoryError description]);
+    }
     
 }
 
