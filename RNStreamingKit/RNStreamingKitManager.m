@@ -247,18 +247,6 @@ RCT_EXPORT_METHOD(getState: (RCTResponseSenderBlock) callback)
 #pragma mark - Audio Session
 
 
-- (void)setSharedAudioSessionCategory
-{
-    NSError *categoryError = nil;
-    
-    // Create shared session and set audio session category allowing background playback
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&categoryError];
-    
-    if (categoryError) {
-        NSLog(@"Error setting category! %@", [categoryError description]);
-    }
-}
-
 - (void)registerAudioInterruptionNotifications
 {
     // Register for audio interrupt notifications
