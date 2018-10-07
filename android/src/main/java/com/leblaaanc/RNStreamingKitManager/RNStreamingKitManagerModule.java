@@ -50,7 +50,7 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
   volatile boolean _isBuffering;
   volatile boolean _isCall;
   AudioManager _audioManager;
-;
+  AudioManager.OnAudioFocusChangeListener audioFocusHandler;
 
   public RNStreamingKitManagerModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -88,6 +88,7 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
          }
      });
      */
+	 
  }
 
   @ReactMethod
@@ -277,8 +278,7 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnBufferingUpdateListener {
   void initAudioInterrupts() {
     _audioManager = (AudioManager)_reactContext.getSystemService(Context.AUDIO_SERVICE);
 
-    AudioManager.OnAudioFocusChangeListener afChangeListener =
-        new AudioManager.OnAudioFocusChangeListener() {
+    audioFocusHandler = new AudioManager.OnAudioFocusChangeListener() {
             public void onAudioFocusChange(int focusChange) {
                 switch (focusChange) {
                   case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
