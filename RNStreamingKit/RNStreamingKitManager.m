@@ -22,6 +22,9 @@
 {
     self = [super init];
     if (self) {
+	  NSError * categoryError;
+      [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:&categoryError];
+      [[AVAudioSession sharedInstance] setActive:YES error:&categoryError];
       self.audioPlayer = [[STKAudioPlayer alloc] initWithOptions:(STKAudioPlayerOptions){}];
       [self.audioPlayer setDelegate:self];
       [self registerAudioInterruptionNotifications];
